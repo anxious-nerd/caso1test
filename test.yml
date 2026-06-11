@@ -1,0 +1,26 @@
+services:
+  jupyter:
+    image: jupyter/minimal-notebook:latest
+    container_name: jupyter_lab
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_TOKEN=lab2025
+    volumes:
+      - ./notebooks:/home/jovyan/work
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    container_name: postgres_db
+    environment:
+      - POSTGRES_DB=datos
+      - POSTGRES_USER=usuario
+      - POSTGRES_PASSWORD=clave123
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
